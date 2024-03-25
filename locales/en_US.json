@@ -1,0 +1,6 @@
+{
+    "plugin.name": "Battery",
+    "actions.battery-percentage.name": "Battery Percentage",
+    "actions.battery-percentage.device-drop-down.title": "Device",
+    "actions.battery-percentage.fix-duplicates.title": "Fix Duplicates"
+}
