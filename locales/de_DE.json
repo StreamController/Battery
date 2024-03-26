@@ -1,0 +1,6 @@
+{
+    "plugin.name": "Batterie",
+    "actions.battery-percentage.name": "Batteriestand",
+    "actions.battery-percentage.device-drop-down.title": "Gerät",
+    "actions.battery-percentage.fix-duplicates.title": "Doppelte Geräte ignorieren"
+}
