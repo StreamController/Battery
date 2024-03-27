@@ -112,14 +112,12 @@ class BatteryPercentage(ActionBase):
     def on_device_changed(self, *args):
         settings = self.get_settings()
         selected = self.device_row.get_selected()
-        print(f"Selected: {selected}")
         settings["device"] = self.device_model[self.device_row.get_selected()].get_string()
         self.set_settings(settings)
 
     def update_device_model(self):
         ## Clear
         while len(self.device_model) > 0:
-            print(len(self.device_model))
             self.device_model.remove(0)
 
         ## Add
