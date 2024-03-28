@@ -46,7 +46,7 @@ class BatteryPercentage(ActionBase):
         self.on_tick()
 
     def get_devices(self, fix_charging_duplicates: bool = True) -> dict:
-        bus = dbus.SystemBus()
+        bus = dbus.SessionBus()
         upower = bus.get_object('org.freedesktop.UPower', '/org/freedesktop/UPower')
         iface = dbus.Interface(upower, 'org.freedesktop.UPower')
 
