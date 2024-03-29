@@ -11,7 +11,7 @@ from src.backend.PluginManager.ActionHolder import ActionHolder
 import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
-from gi.repository import Gtk, Adw, Gio, GLib
+from gi.repository import Gtk, Adw, Gio, GLib, Pango
 
 GLib.set_application_name("StreamController")
 
@@ -87,13 +87,18 @@ class BatteryPercentage(ActionBase):
         return devices
     
     def get_config_rows(self) -> list:
-        self.device_model = Gtk.StringList()
-        self.device_row = Adw.ComboRow(model=self.device_model, title=self.plugin_base.lm.get("actions.battery-percentage.device-drop-down.title"))
+        self.device_model = Gtk.ListStore.new([str])
+        # self.device_row = Adw.ComboRow(model=self.device_model, title=self.plugin_base.lm.get("actions.battery-percentage.device-drop-down.title"))
+        self.device_row = ComboRow(model=self.device_model, title=self.plugin_base.lm.get("actions.battery-percentage.device-drop-down.title"))
+
+        self.device_renderer = Gtk.CellRendererText(ellipsize=Pango.EllipsizeMode.END, ellipsize_set=True)
+        self.device_row.combo_box.pack_start(self.device_renderer, True)
+        self.device_row.combo_box.add_attribute(self.device_renderer, "text", 0)
 
         self.update_device_model()
         self.load_defaults()
 
-        self.device_row.connect("notify::selected", self.on_device_changed)
+        self.device_row.combo_box.connect("changed", self.on_device_changed)
         return [self.device_row]
 
     
@@ -102,28 +107,28 @@ class BatteryPercentage(ActionBase):
 
     def load_selected_device(self):
         settings = self.get_settings()
-        for i, device_name in enumerate(self.device_model):
-            if device_name.get_string() == settings.get("device"):
-                self.device_row.set_selected(i)
+        for i, row in enumerate(self.device_model):
+            if row[0] == settings.get("device"):
+                self.device_row.combo_box.set_active(i)
                 return
 
-        self.device_row.set_selected(Gtk.INVALID_LIST_POSITION)
+        self.device_row.combo_box.set_active(-1)
 
-    def on_device_changed(self, *args):
+    def on_device_changed(self, combo, *args):
+        selected = self.device_model[combo.get_active()][0]
+
         settings = self.get_settings()
-        selected = self.device_row.get_selected()
-        settings["device"] = self.device_model[self.device_row.get_selected()].get_string()
+        settings["device"] = selected
         self.set_settings(settings)
 
     def update_device_model(self):
-        ## Clear
-        while len(self.device_model) > 0:
-            self.device_model.remove(0)
+        # Clear
+        self.device_model.clear()
 
         ## Add
         devices = self.get_devices(fix_charging_duplicates=True)
         for model_name in devices:
-            self.device_model.append(model_name)
+            self.device_model.append([model_name])
 
     def on_tick(self):
         device_name = self.get_settings().get("device", None)
