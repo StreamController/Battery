@@ -3,5 +3,6 @@
     "thumbnail": "store/Thumbnail.png",
     "id": "com_core447_Battery",
     "name": "Battery",
-    "description": "Show the battery percentage of all devices implementing org.freedesktop.UPower."
+    "description": "Show the battery percentage of all devices implementing org.freedesktop.UPower.",
+    "short-description": "Show battery percentages"
 }
