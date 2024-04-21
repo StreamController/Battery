@@ -141,18 +141,18 @@ class BatteryPercentage(ActionBase):
         icon_name = self.get_battery_icon_name(percentage, is_charging)
         icon_path = os.path.join(self.plugin_base.PATH, "assets", "battery", icon_name)
 
-        self.set_media(media_path=icon_path, size=0.5, valign=-0.5)
+        self.set_media(media_path=icon_path, size=0.5, valign=-0.5, update=False)
         if percentage < 0:
-            percentage = "?"
+            self.set_bottom_label("off")
         else:
             if percentage <= 25:
-                self.set_background_color([255, 0, 0, 255])
+                self.set_background_color([255, 0, 0, 255], update=False)
             elif percentage >= 90:
-                self.set_background_color([85, 185, 17, 255])
+                self.set_background_color([85, 185, 17, 255], update=False)
             else:
-                self.set_background_color([0, 0, 0, 0])
+                self.set_background_color([0, 0, 0, 0], update=False)
 
-        self.set_bottom_label(f"{percentage}%")
+            self.set_bottom_label(f"{percentage}%")
 
 
 
