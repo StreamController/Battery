@@ -37,10 +37,8 @@ from src.backend.PageManagement.Page import Page
 from plugins.com_core447_Battery.ComboRow import ComboRow
 
 class BatteryPercentage(ActionBase):
-    def __init__(self, action_id: str, action_name: str,
-                 deck_controller: "DeckController", page: Page, coords: str, plugin_base: PluginBase):
-        super().__init__(action_id=action_id, action_name=action_name,
-            deck_controller=deck_controller, page=page, coords=coords, plugin_base=plugin_base)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         
         self.HAS_CONFIGURATION = True
         
@@ -174,13 +172,13 @@ class BatteryPlugin(PluginBase):
         self.lm = self.locale_manager
 
         ## Register actions
-        self.find_phone_holder = ActionHolder(
+        self.percentage_holder = ActionHolder(
             plugin_base=self,
             action_base=BatteryPercentage,
             action_id="com_core447_Battery::BatteryPercentage",
             action_name=self.lm.get("actions.battery-percentage.name"),
         )
-        self.add_action_holder(self.find_phone_holder)
+        self.add_action_holder(self.percentage_holder)
 
         # Register plugin
         self.register(
