@@ -33,6 +33,8 @@ import globals as gl
 # Import own modules
 from src.backend.DeckManagement.DeckController import DeckController
 from src.backend.PageManagement.Page import Page
+from src.backend.DeckManagement.InputIdentifier import Input
+from src.backend.PluginManager.ActionInputSupport import ActionInputSupport
 
 from plugins.com_core447_Battery.ComboRow import ComboRow
 
@@ -175,8 +177,13 @@ class BatteryPlugin(PluginBase):
         self.percentage_holder = ActionHolder(
             plugin_base=self,
             action_base=BatteryPercentage,
-            action_id="com_core447_Battery::BatteryPercentage",
+            action_id_suffix="BatteryPercentage",
             action_name=self.lm.get("actions.battery-percentage.name"),
+            action_support={
+                Input.Key: ActionInputSupport.SUPPORTED,
+                Input.Dial: ActionInputSupport.SUPPORTED,
+                Input.Touchscreen: ActionInputSupport.UNSUPPORTED
+            }
         )
         self.add_action_holder(self.percentage_holder)
 
