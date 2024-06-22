@@ -42,7 +42,7 @@ class BatteryPercentage(ActionBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
-        self.HAS_CONFIGURATION = True
+        self.has_configuration = True
         
     def on_ready(self):
         self.on_tick()
