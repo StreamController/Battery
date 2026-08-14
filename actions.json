@@ -1,0 +1,19 @@
+{
+    "plugin": {
+        "description": "Shows the battery level of a device - laptop, mouse, keyboard, headset - on a key.",
+        "requirements": "UPower running on the system, which is the case on most desktop Linux installations."
+    },
+    "actions": {
+        "BatteryPercentage": {
+            "description": "Shows the charge level of one battery on the key, with a battery icon and the percentage below it. It updates itself and needs no press. The background turns red below 25% and green above 90%.",
+            "settings": {
+                "device": {
+                    "type": "string",
+                    "required": true,
+                    "description": "Which battery to show, by the device's model name as UPower reports it. Without it the key shows \"off\".",
+                    "example": "MX Master 3"
+                }
+            }
+        }
+    }
+}
